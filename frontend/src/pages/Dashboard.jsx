@@ -1,5 +1,5 @@
-import '../styles/dashboard.css';
-import { Link } from 'react-router-dom';
+import "../styles/dashboard.css";
+import { Link } from "react-router-dom";
 import {
   Droplet,
   Search,
@@ -13,157 +13,158 @@ import {
   MessageCircle,
   Heart,
   CheckCircle2,
-  Microscope
-} from 'lucide-react';
+  Microscope,
+} from "lucide-react";
 
 function Dashboard() {
   const skinProblems = [
     {
       icon: <Droplet />,
-      title: 'Dehidrasi Lapisan Sawar (Skin Barrier)',
+      title: "Dehidrasi Lapisan Sawar (Skin Barrier)",
       description:
-        'Penggunaan pembersih wajah yang terlalu keras mengikis lipid alami kulit. Akibatnya, kelembapan mudah menguap dan kulit menjadi lebih rentan terhadap iritasi.',
-      tag: 'Fokus: Hidrasi dan penguatan barrier'
+        "Penggunaan pembersih wajah yang terlalu keras mengikis lipid alami kulit. Akibatnya, kelembapan mudah menguap dan kulit menjadi lebih rentan terhadap iritasi.",
+      tag: "Fokus: Hidrasi dan penguatan barrier",
     },
     {
       icon: <Search />,
-      title: 'Penumpukan Keratin pada Saluran Pori',
+      title: "Penumpukan Keratin pada Saluran Pori",
       description:
-        'Ketika sel kulit mati tidak terlepas secara teratur, sumbatan yang terbentuk di dalam folikel akan mengeras dan membentuk komedo, menjadi pemicu pertumbuhan bakteri penyebab jerawat.',
-      tag: 'Fokus: Eksfoliasi BHA Teratur'
+        "Ketika sel kulit mati tidak terlepas secara teratur, sumbatan yang terbentuk di dalam folikel akan mengeras dan membentuk komedo, menjadi pemicu pertumbuhan bakteri penyebab jerawat.",
+      tag: "Fokus: Eksfoliasi BHA Teratur",
     },
     {
       icon: <Leaf />,
-      title: 'Fluktuasi Hormon dan Inflamasi',
+      title: "Fluktuasi Hormon dan Inflamasi",
       description:
-        'Stres fisik, pola tidur, dan siklus bulanan memengaruhi hormon androgen yang memperbesar aktivitas kelenjar sebum, memicu jerawat meradang di garis rahang dan pipi.',
-      tag: 'Fokus: Bahan Penenang Anti-Inflamasi'
-    }
+        "Stres fisik, pola tidur, dan siklus bulanan memengaruhi hormon androgen yang memperbesar aktivitas kelenjar sebum, memicu jerawat meradang di garis rahang dan pipi.",
+      tag: "Fokus: Bahan Penenang Anti-Inflamasi",
+    },
   ];
 
   const routines = [
     {
-      number: 'Tahap 1',
+      number: "Tahap 1",
       icon: <Search />,
-      title: 'Pembersih Lembut',
-      subtitle: 'Pagi & Malam',
+      title: "Pembersih Lembut",
+      subtitle: "Pagi & Malam",
       description:
-        'Gunakan pembersih bertekstur gel dengan busa ringan dan formula bebas sulfat untuk menjaga kelembapan alami kulit tanpa menyebabkan iritasi.',
-      note: 'Kondisi: Gel berbasis air dengan pH seimbang 5-6.'
+        "Gunakan pembersih bertekstur gel dengan busa ringan dan formula bebas sulfat untuk menjaga kelembapan alami kulit tanpa menyebabkan iritasi.",
+      note: "Kondisi: Gel berbasis air dengan pH seimbang 5-6.",
     },
     {
-      number: 'Tahap 2',
+      number: "Tahap 2",
       icon: <Droplet />,
-      title: 'Serum Penenang',
-      subtitle: 'Pagi & Malam',
+      title: "Serum Penenang",
+      subtitle: "Pagi & Malam",
       description:
-        'Gunakan 2 hingga 3 tetes serum berbasis air yang mengandung Centella Asiatica untuk meredakan kemerahan dan memperkuat skin barrier.',
-      note: 'Kandungan: Formula oil-free, cepat meresap.'
+        "Gunakan 2 hingga 3 tetes serum berbasis air yang mengandung Centella Asiatica untuk meredakan kemerahan dan memperkuat skin barrier.",
+      note: "Kandungan: Formula oil-free, cepat meresap.",
     },
     {
-      number: 'Tahap 3',
+      number: "Tahap 3",
       icon: <FlaskConical />,
-      title: 'Pelembap Gel',
-      subtitle: 'Pagi & Malam',
+      title: "Pelembap Gel",
+      subtitle: "Pagi & Malam",
       description:
-        'Pilih pelembap berbasis air (water-gel) bebas minyak yang memberikan hidrasi tanpa membuat kulit terasa berat.',
-      note: 'Kondisi: Gel ringan tanpa kandungan minyak berat.'
+        "Pilih pelembap berbasis air (water-gel) bebas minyak yang memberikan hidrasi tanpa membuat kulit terasa berat.",
+      note: "Kondisi: Gel ringan tanpa kandungan minyak berat.",
     },
     {
-      number: 'Tahap 4',
+      number: "Tahap 4",
       icon: <Sun />,
-      title: 'Tabir Surya Ringan',
-      subtitle: 'Khusus Pagi Hari',
+      title: "Tabir Surya Ringan",
+      subtitle: "Khusus Pagi Hari",
       description:
-        'Lindungi kulit dari sinar ultraviolet dengan SPF minimal 30 agar proses perawatan berjalan lebih optimal.',
-      note: 'Karakteristik: Tekstur fluid dengan hasil akhir matte.'
-    }
+        "Lindungi kulit dari sinar ultraviolet dengan SPF minimal 30 agar proses perawatan berjalan lebih optimal.",
+      note: "Karakteristik: Tekstur fluid dengan hasil akhir matte.",
+    },
   ];
 
   const benefits = [
     {
       icon: <Droplet />,
-      title: 'Keseimbangan Hidrasi Lapisan Luar',
+      title: "Keseimbangan Hidrasi Lapisan Luar",
       description:
-        'Menjaga kelembapan minyak alami kulit dan mencegah hilangnya air berlebihan melalui permukaan kulit.'
+        "Menjaga kelembapan minyak alami kulit dan mencegah hilangnya air berlebihan melalui permukaan kulit.",
     },
     {
       icon: <Leaf />,
-      title: 'Pembentukan Folikel Pori Mandiri',
+      title: "Pembentukan Folikel Pori Mandiri",
       description:
-        'Eksfoliasi bertahap guna mengurangi kotoran dan sel kulit mati sebelum memicu komedo atau peradangan.'
+        "Eksfoliasi bertahap guna mengurangi kotoran dan sel kulit mati sebelum memicu komedo atau peradangan.",
     },
     {
       icon: <ShieldCheck />,
-      title: 'Penguatan Pertahanan Kulit (Barrier)',
+      title: "Penguatan Pertahanan Kulit (Barrier)",
       description:
-        'Menjaga integritas lapisan pelindung alami agar kulit terlindungi dari masalah hambatan lingkungan.'
-    }
+        "Menjaga integritas lapisan pelindung alami agar kulit terlindungi dari masalah hambatan lingkungan.",
+    },
   ];
 
   const ingredients = [
     {
-      title: 'Kandungan yang Bermanfaat',
+      title: "Kandungan yang Bermanfaat",
       icon: <Sparkles />,
       items: [
         {
-          name: 'Niacinamide (2% - 5%)',
+          name: "Niacinamide (2% - 5%)",
           description:
-            'Regulator Sebum dan Pembantu Skin Barrier. Membantu menyeimbangkan produksi minyak harian, menyamarkan tampilan pori, serta mendukung kelembapan.'
+            "Regulator Sebum dan Pembantu Skin Barrier. Membantu menyeimbangkan produksi minyak harian, menyamarkan tampilan pori, serta mendukung kelembapan.",
         },
         {
-          name: 'Salicylic Acid (BHA 1% - 2%)',
+          name: "Salicylic Acid (BHA 1% - 2%)",
           description:
-            'Pembersih Pori Lipofilik. Asam larut minyak yang dapat masuk ke saluran folikel untuk mengangkat kotoran dan komedo.'
+            "Pembersih Pori Lipofilik. Asam larut minyak yang dapat masuk ke saluran folikel untuk mengangkat kotoran dan komedo.",
         },
         {
-          name: 'Centella Asiatica (Cica)',
+          name: "Centella Asiatica (Cica)",
           description:
-            'Agen Penenang Alami. Membantu meredakan kemerahan dan menjaga kulit tetap nyaman.'
+            "Agen Penenang Alami. Membantu meredakan kemerahan dan menjaga kulit tetap nyaman.",
         },
         {
-          name: 'Ceramide & Hyaluronic Acid',
+          name: "Ceramide & Hyaluronic Acid",
           description:
-            'Pengunci Kelembapan Non-Komedogenik. Memulihkan lapisan pelindung kulit dan mempertahankan hidrasi.'
-        }
-      ]
+            "Pengunci Kelembapan Non-Komedogenik. Memulihkan lapisan pelindung kulit dan mempertahankan hidrasi.",
+        },
+      ],
     },
     {
-      title: 'Bahan yang Perlu Dibatasi',
+      title: "Bahan yang Perlu Dibatasi",
       icon: <AlertTriangle />,
       items: [
         {
-          name: 'Minyak Kelapa Murni & Minyak Mineral Pekat',
+          name: "Minyak Kelapa Murni & Minyak Mineral Pekat",
           description:
-            'Memiliki risiko terasa berat dan dapat menyebabkan ketidaknyamanan pada sebagian kulit berminyak.'
+            "Memiliki risiko terasa berat dan dapat menyebabkan ketidaknyamanan pada sebagian kulit berminyak.",
         },
         {
-          name: 'Butiran Scrub Berpartikel Tajam',
+          name: "Butiran Scrub Berpartikel Tajam",
           description:
-            'Gesekan partikel besar dapat memperburuk iritasi pada kulit yang sedang mengalami peradangan.'
+            "Gesekan partikel besar dapat memperburuk iritasi pada kulit yang sedang mengalami peradangan.",
         },
         {
-          name: 'Alkohol Denat. Dosis Tinggi',
+          name: "Alkohol Denat. Dosis Tinggi",
           description:
-            'Berpotensi menyebabkan kulit terasa kering dan kurang nyaman apabila digunakan berlebihan.'
+            "Berpotensi menyebabkan kulit terasa kering dan kurang nyaman apabila digunakan berlebihan.",
         },
         {
-          name: 'Artificial Fragrance',
+          name: "Artificial Fragrance",
           description:
-            'Sebaiknya diperhatikan terutama jika kulit memiliki sensitivitas terhadap pewangi.'
-        }
-      ]
-    }
+            "Sebaiknya diperhatikan terutama jika kulit memiliki sensitivitas terhadap pewangi.",
+        },
+      ],
+    },
   ];
 
   return (
     <div className="dashboard-page">
-
       {/* NAVBAR */}
       <header className="main-navbar">
         <Link to="/dashboard" className="navbar-brand">
           <span className="brand-logo">RD</span>
-          <span>Rijema <b>Dira</b></span>
+          <span>
+            Rijema <b>Dira</b>
+          </span>
         </Link>
 
         <nav className="navbar-links">
@@ -178,7 +179,6 @@ function Dashboard() {
       </header>
 
       <main>
-
         {/* HERO SECTION */}
         <section className="hero-section">
           <div className="hero-content">
@@ -186,17 +186,13 @@ function Dashboard() {
               Panduan Perawatan Kulit Personal
             </span>
 
-            <h1>
-              Pahami Kebutuhan Kulitmu,
-              Temukan Skincare yang Tepat.
-            </h1>
+            <h1>Pahami Kebutuhan Kulitmu, Temukan Skincare yang Tepat.</h1>
 
             <p>
-              Setiap kulit memiliki karakter unik. Identifikasi
-              kondisi minyak berlebih, pori tersumbat, dan jerawat
-              melalui pendekatan personal bersama Rijema Dira.
-              Dapatkan rekomendasi kandungan aktif yang aman
-              dan efektif.
+              Setiap kulit memiliki karakter unik. Identifikasi kondisi minyak
+              berlebih, pori tersumbat, dan jerawat melalui pendekatan personal
+              bersama Rijema Dira. Dapatkan rekomendasi kandungan aktif yang
+              aman dan efektif.
             </p>
 
             <div className="hero-buttons">
@@ -210,9 +206,15 @@ function Dashboard() {
             </div>
 
             <div className="hero-features">
-              <span><CheckCircle2 /> Pendekatan berbasis kebutuhan kulit</span>
-              <span><CheckCircle2 /> Informasi kandungan skincare</span>
-              <span><CheckCircle2 /> Panduan rutinitas harian</span>
+              <span>
+                <CheckCircle2 /> Pendekatan berbasis kebutuhan kulit
+              </span>
+              <span>
+                <CheckCircle2 /> Informasi kandungan skincare
+              </span>
+              <span>
+                <CheckCircle2 /> Panduan rutinitas harian
+              </span>
             </div>
           </div>
 
@@ -220,8 +222,8 @@ function Dashboard() {
             <span className="section-label">Prinsip Kulit Seimbang</span>
             <h3>Karakter Kulit Wajah Sehat</h3>
             <p className="hero-card-description">
-              Tiga pilar dasar untuk menyeimbangkan kadar minyak
-              dan memelihara integritas sawar kulit.
+              Tiga pilar dasar untuk menyeimbangkan kadar minyak dan memelihara
+              integritas sawar kulit.
             </p>
 
             {benefits.map((item, index) => (
@@ -240,45 +242,15 @@ function Dashboard() {
           </div>
         </section>
 
-        {/* PALETTE */}
-        <section className="palette-section">
-          <div>
-            <span className="small-heading">PALET WARNA RIJEMA DIRA</span>
-            <p>
-              Kombinasi nuansa cream, blush lembut, dan terracotta
-              hangat yang dirancang untuk kenyamanan visual serta
-              pengalaman pengguna yang tenang.
-            </p>
-          </div>
-
-          <div className="palette-colors">
-            {[
-              ['Warm Cream', '#FAF7F3'],
-              ['Soft Blush', '#F6E6E2'],
-              ['Dusty Petal', '#EBCAC6'],
-              ['Rose Nude', '#D99591'],
-              ['Soft Sand', '#D9C9B9']
-            ].map(([name, color]) => (
-              <div className="palette-item" key={name}>
-                <span style={{ backgroundColor: color }}></span>
-                <small>{name}</small>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* SKIN PROBLEMS */}
         <section className="content-section" id="karakteristik">
           <div className="section-heading">
             <span className="section-label">Memahami Masalah Kulit</span>
-            <h2>
-              Mengapa Kulit Menjadi Berminyak
-              dan Rentan Berjerawat?
-            </h2>
+            <h2>Mengapa Kulit Menjadi Berminyak dan Rentan Berjerawat?</h2>
             <p>
-              Kulit berjerawat bukan sekadar masalah minyak berlebih,
-              melainkan ketidakseimbangan antara kadar hidrasi,
-              eksfoliasi alami pori, dan kebiasaan pembersihan wajah.
+              Kulit berjerawat bukan sekadar masalah minyak berlebih, melainkan
+              ketidakseimbangan antara kadar hidrasi, eksfoliasi alami pori, dan
+              kebiasaan pembersihan wajah.
             </p>
           </div>
 
@@ -298,21 +270,17 @@ function Dashboard() {
         <section className="content-section" id="kandungan">
           <div className="section-heading">
             <span className="section-label">Formula Perawatan</span>
-            <h2>
-              Kandungan yang Dianjurkan dan yang
-              Perlu Diwaspadai
-            </h2>
+            <h2>Kandungan yang Dianjurkan dan yang Perlu Diwaspadai</h2>
             <p>
-              Mengetahui bahan aktif pada produk membantu memilih
-              formula yang bekerja efektif tanpa memperparah
-              permasalahan kulit.
+              Mengetahui bahan aktif pada produk membantu memilih formula yang
+              bekerja efektif tanpa memperparah permasalahan kulit.
             </p>
           </div>
 
           <div className="ingredient-grid">
             {ingredients.map((group, index) => (
               <article
-                className={`ingredient-card ${index === 1 ? 'warning-card' : ''}`}
+                className={`ingredient-card ${index === 1 ? "warning-card" : ""}`}
                 key={group.title}
               >
                 <div className="ingredient-title">
@@ -337,9 +305,8 @@ function Dashboard() {
             <span className="section-label">Panduan Perawatan Harian</span>
             <h2>Empat Tahapan Rutinitas Esensial</h2>
             <p>
-              Perawatan kulit yang konsisten tidak memerlukan banyak
-              produk. Cukup terapkan langkah dasar yang bekerja
-              secara sinergis.
+              Perawatan kulit yang konsisten tidak memerlukan banyak produk.
+              Cukup terapkan langkah dasar yang bekerja secara sinergis.
             </p>
           </div>
 
@@ -365,14 +332,11 @@ function Dashboard() {
         <section className="consultation-banner" id="konsultasi">
           <div>
             <span className="section-label">Layanan Konsultasi Personal</span>
-            <h2>
-              Ingin berdiskusi mengenai kondisi
-              spesifik kulitmu?
-            </h2>
+            <h2>Ingin berdiskusi mengenai kondisi spesifik kulitmu?</h2>
             <p>
-              Dapatkan penjelasan mengenai penyebab jerawat,
-              kecocokan bahan aktif, dan tips memilih pelembap
-              melalui sistem konsultasi Rijema Dira.
+              Dapatkan penjelasan mengenai penyebab jerawat, kecocokan bahan
+              aktif, dan tips memilih pelembap melalui sistem konsultasi Rijema
+              Dira.
             </p>
 
             <Link to="/chatbot" className="button-primary">
@@ -386,7 +350,6 @@ function Dashboard() {
             <Sparkles className="sparkle-decoration" />
           </div>
         </section>
-
       </main>
 
       {/* FOOTER */}
@@ -399,9 +362,9 @@ function Dashboard() {
             </Link>
 
             <p>
-              Pendamping personal untuk memahami karakteristik
-              kulit dan membangun rutinitas perawatan yang tepat,
-              aman, dan berkesinambungan.
+              Pendamping personal untuk memahami karakteristik kulit dan
+              membangun rutinitas perawatan yang tepat, aman, dan
+              berkesinambungan.
             </p>
           </div>
 
@@ -430,10 +393,10 @@ function Dashboard() {
         </div>
 
         <div className="footer-disclaimer">
-          <strong>Pemberitahuan:</strong> Rekomendasi yang diberikan
-          melalui Rijema Dira bersifat edukasi perawatan kulit.
-          Konsultasikan permasalahan kulit dengan tenaga medis
-          apabila mengalami kondisi yang memerlukan pemeriksaan.
+          <strong>Pemberitahuan:</strong> Rekomendasi yang diberikan melalui
+          Rijema Dira bersifat edukasi perawatan kulit. Konsultasikan
+          permasalahan kulit dengan tenaga medis apabila mengalami kondisi yang
+          memerlukan pemeriksaan.
         </div>
 
         <div className="footer-bottom">
@@ -441,7 +404,6 @@ function Dashboard() {
           <span>Dirancang dengan penuh perhatian untuk kulitmu.</span>
         </div>
       </footer>
-
     </div>
   );
 }
