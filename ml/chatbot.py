@@ -5,7 +5,7 @@ Jalankan: python chatbot.py   (pastikan `ollama serve` aktif)
 """
 import json
 import requests
-import fuzzy_skin
+import fuzzy_skin as fuzzy_skin
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL = "gemma3:4b"      # GANTI sesuai hasil `ollama list`
