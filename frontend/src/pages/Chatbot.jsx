@@ -10,7 +10,11 @@ import {
   MessageCircle,
   RefreshCw,
   ArrowLeft,
-  CheckCircle2
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
 
 import '../styles/chatbot.css';
@@ -39,191 +43,32 @@ const initialMessage = {
   )
 };
 
-function getBotResponse(message) {
-  const text = message.toLowerCase();
+// Kirim pesan ke backend Flask -> chatbot fuzzy Mamdani + Ollama
+async function sendToBackend(message) {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message }),
+  });
 
-  if (
-    text.includes('jerawat') ||
-    text.includes('berminyak') ||
-    text.includes('minyak')
-  ) {
-    return {
-      title: 'Panduan untuk Kulit Berminyak dan Berjerawat',
-      text: (
-        <>
-          Kombinasi area T-zone yang berminyak dan timbulnya jerawat
-          biasanya dapat berkaitan dengan produksi sebum berlebih,
-          pori tersumbat, atau iritasi kulit.
-          <br /><br />
-          <strong>Langkah Perawatan yang Tepat:</strong>
-          <ol>
-            <li>Gunakan pembersih gel dengan pH seimbang dua kali sehari.</li>
-            <li>
-              Pertimbangkan <em>Salicylic Acid (BHA 1-2%)</em> secara
-              bertahap untuk membantu membersihkan pori.
-            </li>
-            <li>
-              Gunakan <em>Niacinamide (2-5%)</em> untuk membantu
-              mengontrol produksi sebum.
-            </li>
-            <li>
-              Tetap gunakan pelembap ringan dan sunscreen pada pagi hari.
-            </li>
-          </ol>
-          <strong>Catatan:</strong> Mulai bahan aktif secara bertahap
-          dan hentikan jika terjadi iritasi.
-        </>
-      )
-    };
+  const data = await res.json();
+
+  if (!res.ok || !data.ok) {
+    throw new Error(data.reply || 'Terjadi kesalahan pada server.');
   }
 
-  if (
-    text.includes('dehidrasi') ||
-    text.includes('kering') ||
-    text.includes('hidrasi')
-  ) {
-    return {
-      title: 'Panduan Kulit Berminyak tetapi Dehidrasi',
-      text: (
-        <>
-          Kulit berminyak tidak selalu berarti kulit memiliki
-          kelembapan yang cukup. Kulit dapat menghasilkan minyak
-          berlebih sekaligus mengalami kekurangan air.
-          <br /><br />
-          <strong>Rekomendasi Perawatan:</strong>
-          <ol>
-            <li>Gunakan pembersih wajah yang lembut.</li>
-            <li>
-              Pilih serum dengan <em>Hyaluronic Acid</em> atau
-              Glycerin untuk membantu menjaga hidrasi.
-            </li>
-            <li>Gunakan pelembap gel yang ringan.</li>
-            <li>Hindari mencuci wajah secara berlebihan.</li>
-          </ol>
-        </>
-      )
-    };
-  }
+  return data.reply;
+}
 
-  if (
-    text.includes('pelembap') ||
-    text.includes('moisturizer') ||
-    text.includes('gel')
-  ) {
-    return {
-      title: 'Memilih Pelembap untuk Kulit Berminyak',
-      text: (
-        <>
-          Pelembap tetap diperlukan meskipun kulit Anda berminyak.
-          Pilih produk dengan tekstur ringan agar nyaman digunakan.
-          <br /><br />
-          <strong>Kandungan yang bisa dipertimbangkan:</strong>
-          <ol>
-            <li>Hyaluronic Acid untuk membantu hidrasi.</li>
-            <li>Niacinamide untuk membantu mengontrol sebum.</li>
-            <li>Ceramide untuk mendukung skin barrier.</li>
-            <li>Glycerin sebagai bahan humektan.</li>
-          </ol>
-          Carilah formula yang terasa nyaman dan tidak menyebabkan
-          reaksi negatif pada kulit Anda.
-        </>
-      )
-    };
+// Cek status backend & Ollama
+async function checkHealth() {
+  try {
+    const res = await fetch('/api/health');
+    const data = await res.json();
+    return data;
+  } catch {
+    return { backend: false, ollama: false };
   }
-
-  if (
-    text.includes('bha') ||
-    text.includes('niacinamide') ||
-    text.includes('kandungan')
-  ) {
-    return {
-      title: 'Mengenal BHA dan Niacinamide',
-      text: (
-        <>
-          BHA dan Niacinamide memiliki fungsi yang berbeda dan dapat
-          menjadi bagian dari rutinitas perawatan kulit.
-          <br /><br />
-          <strong>BHA (Salicylic Acid):</strong>
-          <p>
-            Membantu mengeksfoliasi sel kulit mati dan membersihkan
-            pori yang tersumbat.
-          </p>
-          <br />
-          <strong>Niacinamide:</strong>
-          <p>
-            Membantu mendukung skin barrier dan mengatur produksi
-            sebum.
-          </p>
-          <br />
-          Gunakan bahan aktif secara bertahap dan perhatikan toleransi
-          kulit masing-masing.
-        </>
-      )
-    };
-  }
-
-  if (
-    text.includes('sunscreen') ||
-    text.includes('tabir surya') ||
-    text.includes('matahari')
-  ) {
-    return {
-      title: 'Rekomendasi Tabir Surya untuk Kulit Berminyak',
-      text: (
-        <>
-          Untuk kulit berminyak, Anda dapat mempertimbangkan
-          sunscreen bertekstur gel atau fluid dengan hasil akhir
-          matte.
-          <br /><br />
-          <strong>Hal yang perlu diperhatikan:</strong>
-          <ol>
-            <li>Pilih perlindungan minimal SPF 30 dan broad spectrum.</li>
-            <li>Pertimbangkan tekstur ringan yang nyaman.</li>
-            <li>Gunakan sesuai petunjuk pemakaian produk.</li>
-            <li>Aplikasikan ulang secara berkala, terutama saat terpapar matahari.</li>
-          </ol>
-        </>
-      )
-    };
-  }
-
-  if (
-    text.includes('halo') ||
-    text.includes('hai') ||
-    text.includes('hello')
-  ) {
-    return {
-      title: 'Halo! Senang bertemu dengan Anda.',
-      text: (
-        <>
-          Saya Rijema Dira Assistant. Saya siap membantu konsultasi
-          perawatan kulit Anda.
-          <br /><br />
-          Anda bisa menceritakan kondisi kulit, masalah jerawat,
-          produksi minyak, atau bertanya mengenai kandungan skincare.
-        </>
-      )
-    };
-  }
-
-  return {
-    title: 'Mari kita kenali kondisi kulit Anda.',
-    text: (
-      <>
-        Terima kasih sudah bertanya! Agar saya dapat memberikan
-        panduan yang lebih sesuai, boleh ceritakan sedikit mengenai
-        kondisi kulit Anda?
-        <br /><br />
-        Misalnya:
-        <ol>
-          <li>Apakah wajah mudah berminyak?</li>
-          <li>Apakah sering muncul jerawat atau komedo?</li>
-          <li>Apakah kulit terasa kering atau tertarik setelah mencuci wajah?</li>
-        </ol>
-        Anda juga bisa memilih salah satu topik konsultasi di sebelah kiri.
-      </>
-    )
-  };
 }
 
 function Chatbot() {
@@ -233,13 +78,24 @@ function Chatbot() {
 
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [backendStatus, setBackendStatus] = useState({ backend: null, ollama: null });
   const bottomRef = useRef(null);
+
+  // Cek koneksi backend saat komponen pertama kali dimuat
+  useEffect(() => {
+    checkHealth().then(setBackendStatus);
+    // Cek ulang setiap 30 detik
+    const interval = setInterval(() => {
+      checkHealth().then(setBackendStatus);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     const message = text.trim();
 
     if (!message || isTyping) return;
@@ -249,6 +105,7 @@ function Chatbot() {
       minute: '2-digit'
     });
 
+    // Tambah pesan user ke daftar
     setMessages(prev => [
       ...prev,
       {
@@ -262,31 +119,76 @@ function Chatbot() {
     setInput('');
     setIsTyping(true);
 
-    const response = getBotResponse(message);
+    try {
+      // Kirim ke backend (chatbot fuzzy + Ollama)
+      const reply = await sendToBackend(message);
 
-    setTimeout(() => {
       setMessages(prev => [
         ...prev,
         {
           id: Date.now() + 1,
           sender: 'bot',
-          title: response.title,
-          text: response.text,
+          text: reply,
           time: new Date().toLocaleTimeString('id-ID', {
             hour: '2-digit',
             minute: '2-digit'
           })
         }
       ]);
-
+    } catch (error) {
+      // Tampilkan pesan error sebagai pesan bot
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: 'bot',
+          isError: true,
+          text: error.message || 'Gagal menghubungi server. Pastikan backend sudah berjalan.',
+          time: new Date().toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        }
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 700);
+    }
   };
 
   const newConversation = () => {
     setMessages([{ ...initialMessage, id: Date.now(), time: 'Hari ini' }]);
     setInput('');
     setIsTyping(false);
+  };
+
+  // Render status koneksi
+  const renderStatus = () => {
+    if (backendStatus.backend === null) return null;
+
+    if (!backendStatus.backend) {
+      return (
+        <div className="connection-status offline">
+          <WifiOff size={14} />
+          <span>Backend belum aktif — jalankan <code>start_backend.bat</code></span>
+        </div>
+      );
+    }
+
+    if (!backendStatus.ollama) {
+      return (
+        <div className="connection-status warning">
+          <AlertCircle size={14} />
+          <span>Ollama belum aktif — jalankan <code>ollama serve</code></span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="connection-status online">
+        <Wifi size={14} />
+        <span>Terhubung — Siap konsultasi</span>
+      </div>
+    );
   };
 
   return (
@@ -363,25 +265,30 @@ function Chatbot() {
             </button>
           </div>
 
+          {/* CONNECTION STATUS BAR */}
+          {renderStatus()}
+
           {/* MESSAGES */}
           <div className="chat-messages">
 
             {messages.map(message => (
               <div
-                className={`message-row ${message.sender}`}
+                className={`message-row ${message.sender}${message.isError ? ' error' : ''}`}
                 key={message.id}
               >
                 {message.sender === 'bot' && (
-                  <div className="message-avatar">RD</div>
+                  <div className={`message-avatar${message.isError ? ' error-avatar' : ''}`}>
+                    {message.isError ? '!' : 'RD'}
+                  </div>
                 )}
 
                 <div className="message-content">
-                  <div className="message-bubble">
+                  <div className={`message-bubble${message.isError ? ' error-bubble' : ''}`}>
                     {message.title && (
                       <h3>{message.title}</h3>
                     )}
 
-                    <div>{message.text}</div>
+                    <div style={{ whiteSpace: 'pre-wrap' }}>{message.text}</div>
                   </div>
 
                   <span className="message-time">
@@ -395,7 +302,8 @@ function Chatbot() {
               <div className="message-row bot">
                 <div className="message-avatar">RD</div>
                 <div className="message-bubble typing-indicator">
-                  Rijema Dira sedang mengetik...
+                  <Loader2 size={14} className="spin-icon" />
+                  Rijema Dira sedang menganalisis...
                 </div>
               </div>
             )}
@@ -430,8 +338,8 @@ function Chatbot() {
             </form>
 
             <p className="chat-tips">
-              Tips: Anda dapat menanyakan rekomendasi pembersih wajah,
-              pelembap gel, maupun bahan aktif seperti BHA dan Niacinamide.
+              💡 Chatbot ini menggunakan Fuzzy Mamdani + AI untuk menganalisis keluhan kulit Anda.
+              Ceritakan kondisi kulit dengan bahasa sehari-hari, misalnya "muka gw berminyak banget, jerawatan parah".
             </p>
           </div>
 
