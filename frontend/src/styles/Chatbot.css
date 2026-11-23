@@ -681,3 +681,74 @@
     font-size: 9px;
   }
 }
+
+/* =================================
+   CONNECTION STATUS BAR
+================================= */
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.connection-status code {
+  background: rgba(0,0,0,0.08);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.connection-status.online {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+.connection-status.warning {
+  background: #fff3e0;
+  color: #e65100;
+  border-bottom: 1px solid #ffe0b2;
+}
+
+.connection-status.offline {
+  background: #fce4ec;
+  color: #c62828;
+  border-bottom: 1px solid #f8bbd0;
+}
+
+/* =================================
+   ERROR MESSAGE STYLING
+================================= */
+
+.error-avatar {
+  background: linear-gradient(145deg, #e57373, #ef5350) !important;
+  font-weight: 800;
+  font-size: 15px !important;
+}
+
+.error-bubble {
+  background: #fef2f2 !important;
+  border-color: #fca5a5 !important;
+  color: #991b1b !important;
+}
+
+/* =================================
+   LOADING SPINNER
+================================= */
+
+.spin-icon {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

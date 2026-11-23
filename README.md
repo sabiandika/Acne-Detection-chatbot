@@ -1,16 +1,91 @@
-# React + Vite
+# 🌸 Panduan Setup — Rijema Dira Chatbot System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Arsitektur Sistem
 
-Currently, two official plugins are available:
+```mermaid
+flowchart LR
+    A["🖥️ Browser\nhttp://localhost:5173/chatbot"] -->|"POST /api/chat"| B["⚡ Vite Proxy\n:5173"]
+    B -->|"Forward"| C["🐍 Flask Backend\n:5000"]
+    C -->|"Proses"| D["🧠 Chatbot Engine"]
+    D --> E["📊 Fuzzy Mamdani\nscikit-fuzzy"]
+    D --> F["🤖 Ollama / Gemma\n:11434"]
+    E --> G["Skor Masalah\n+ Rekomendasi"]
+    F --> H["Analisis Gejala\n+ Jawaban Empatik"]
+    G --> C
+    H --> C
+    C -->|"JSON Response"| A
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## Cara Menjalankan
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> [!IMPORTANT]
+> Ada **3 service** yang harus jalan: **Ollama**, **Backend Flask**, dan **Frontend Vite**.
 
-## Expanding the ESLint configuration
+### Cara Cepat (Satu Klik)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Pastikan Ollama sudah berjalan** — buka terminal, ketik:
+   ```
+   ollama serve
+   ```
+   Biarkan terminal ini terbuka.
+
+2. **Double-click** file `start_system.bat` di root folder project.
+   - Ini akan otomatis install dependencies dan jalankan backend + frontend.
+
+3. **Buka browser** ke: **http://localhost:5173/chatbot**
+
+### Cara Manual (Step by Step)
+
+**Terminal 1 — Ollama:**
+```
+ollama serve
+```
+
+**Terminal 2 — Backend:**
+```
+cd backend
+pip install flask flask-cors requests scikit-fuzzy numpy
+python app.py
+```
+
+**Terminal 3 — Frontend:**
+```
+npx vite
+```
+
+## Fitur yang Sudah Berjalan
+
+- ✅ **Status koneksi real-time** — bar hijau/kuning/merah di atas chat menunjukkan apakah backend & Ollama sudah aktif
+- ✅ **Error handling** — kalau server mati atau Ollama belum aktif, pesan error ditampilkan langsung di chat (bukan crash)
+- ✅ **Loading animation** — icon berputar saat bot sedang memproses (bukan cuma "sedang mengetik")
+- ✅ **Quick Topics** — klik topik cepat di sidebar tetap bekerja
+- ✅ **Percakapan Baru** — tombol refresh tetap bekerja
+- ✅ **Bahasa santai** — chatbot bisa memahami "muka gw merah gatel banget" berkat normalisasi slang
+
+## Alur Chatbot (Diagram)
+
+```mermaid
+flowchart TD
+    A["User mengetik pesan"] --> B["Normalisasi bahasa santai\n(slang → baku)"]
+    B --> C{"Fuzzy Scope Filter\n(relevansi skincare)"}
+    C -->|"Luar"| D["❌ Tolak:\nMaaf, saya cuma bisa\nbantu soal skincare"]
+    C -->|"Ragu"| E["⚠️ Minta klarifikasi"]
+    C -->|"Dalam"| F["Ekstraksi Gejala"]
+    F --> G["Gemma LLM\n(analisis konteks)"]
+    F --> H["Leksikon Santai\n(jaring pengaman)"]
+    G --> I["Gabung nilai tertinggi"]
+    H --> I
+    I --> J["Fuzzy Mamdani\n4 input → tingkat masalah"]
+    J --> K["Skor + Label\n(ringan/sedang/berat)"]
+    K --> L["Gemma merangkai\njawaban empatik"]
+    L --> M["✅ Jawaban ditampilkan\ndi UI chatbot"]
+```
+
+> [!NOTE]
+> Chatbot ini membutuhkan **Ollama** dengan model **gemma3:4b** yang sudah terdownload.
+> Jika belum punya, jalankan: `ollama pull gemma3:4b`
+
+> [!WARNING]
+> Proses analisis membutuhkan waktu **5-15 detik** per pesan (karena memanggil Ollama 3x per pesan).
+> Ini normal dan tergantung performa komputer kamu.
