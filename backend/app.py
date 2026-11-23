@@ -1,73 +1,34 @@
-"""
-Backend API untuk Rijema Dira Skincare Chatbot
-Flask server yang membungkus chatbot fuzzy Mamdani + Ollama
-"""
+"""Flask application entry point."""
 
-import sys
-import os
-import json
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_cors import CORS
 
-# Tambah folder chatbot ke path supaya bisa import module-nya
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'chatbot'))
+try:
+    from dotenv import load_dotenv
+except ImportError:  # Keep app importable before optional local environment setup.
+    load_dotenv = lambda: None
 
-import chatbot as cb
+load_dotenv()
 
-app = Flask(__name__)
-CORS(app)  # Izinkan request dari frontend (CORS)
-
-
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    """
-    Endpoint utama chatbot.
-    Request body: { "message": "teks dari user" }
-    Response:     { "reply": "jawaban bot", "ok": true }
-    """
-    data = request.get_json(silent=True)
-    if not data or not data.get('message', '').strip():
-        return jsonify({'ok': False, 'reply': 'Pesan tidak boleh kosong.'}), 400
-
-    user_message = data['message'].strip()
-
-    try:
-        reply = cb.proses(user_message)
-        return jsonify({'ok': True, 'reply': reply})
-    except Exception as e:
-        # Kalau Ollama belum jalan atau error lain
-        error_msg = str(e)
-        if 'Connection' in error_msg or 'connection' in error_msg:
-            return jsonify({
-                'ok': False,
-                'reply': 'Ollama belum aktif. Pastikan Ollama sudah berjalan di komputer kamu (jalankan "ollama serve" di terminal).'
-            }), 503
-        return jsonify({
-            'ok': False,
-            'reply': f'Terjadi kesalahan: {error_msg}'
-        }), 500
+from config import FLASK_DEBUG, FLASK_HOST, FLASK_PORT  # noqa: E402
+from routes.chat_routes import chat_blueprint  # noqa: E402
+from routes.health_routes import health_blueprint  # noqa: E402
+from utils.logger import configure_logging  # noqa: E402
 
 
-@app.route('/api/health', methods=['GET'])
-def health():
-    """Cek apakah backend hidup dan Ollama bisa dihubungi."""
-    ollama_ok = False
-    try:
-        import requests as req
-        r = req.get('http://localhost:11434/api/tags', timeout=3)
-        ollama_ok = r.status_code == 200
-    except Exception:
-        pass
-
-    return jsonify({
-        'backend': True,
-        'ollama': ollama_ok
-    })
+def create_app():
+    app = Flask(__name__)
+    app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
+    CORS(app)
+    app.register_blueprint(chat_blueprint)
+    app.register_blueprint(health_blueprint)
+    configure_logging()
+    return app
 
 
-if __name__ == '__main__':
-    print("=" * 50)
-    print("  Rijema Dira Backend - Starting...")
-    print("  API berjalan di http://localhost:5000")
-    print("=" * 50)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+app = create_app()
+
+
+if __name__ == "__main__":
+    print(f"Backend API running at http://{FLASK_HOST}:{FLASK_PORT}")
+    app.run(host=FLASK_HOST, port=FLASK_PORT, debug=FLASK_DEBUG)

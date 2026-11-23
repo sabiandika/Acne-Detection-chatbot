@@ -8,7 +8,12 @@ echo.
 cd /d "%~dp0"
 
 echo [1/2] Menginstall dependencies...
-pip install flask flask-cors requests scikit-fuzzy numpy 2>nul
+python -m pip install -r requirements.txt
+if errorlevel 1 (
+    echo Gagal menginstall dependencies.
+    pause
+    exit /b 1
+)
 echo.
 
 echo [2/2] Menjalankan server backend...

@@ -9,7 +9,7 @@ echo.
 
 :: Jalankan backend di window terpisah
 echo [1/2] Menjalankan Backend (Flask + Chatbot)...
-start "Rijema Dira Backend" cmd /k "cd /d "%~dp0backend" && pip install flask flask-cors requests scikit-fuzzy numpy 2>nul && python app.py"
+start "Rijema Dira Backend" cmd /k "cd /d "%~dp0backend" && python -m pip install -r requirements.txt && python app.py"
 
 :: Tunggu backend siap
 echo      Menunggu backend siap...
