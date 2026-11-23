@@ -1,21 +1,15 @@
-
-import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import '../styles/Cart.css';
+import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import "../styles/Cart.css";
 
 function CartDrawer({ isOpen, onClose, onCheckout }) {
-  const {
-    cartItems,
-    removeFromCart,
-    updateQuantity,
-    totalItems,
-    totalPrice,
-  } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, totalItems, totalPrice } =
+    useCart();
 
   const formatPrice = (price) =>
-    new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
       maximumFractionDigits: 0,
     }).format(price);
 
@@ -44,21 +38,13 @@ function CartDrawer({ isOpen, onClose, onCheckout }) {
             <div className="cart-empty">
               <ShoppingBag size={48} strokeWidth={1.2} />
               <h3>Keranjangmu masih kosong</h3>
-              <p>
-                Yuk, temukan skincare yang sesuai dengan
-                kebutuhan kulitmu.
-              </p>
-              <button onClick={onClose}>
-                Mulai Belanja
-              </button>
+              <p>Yuk, temukan skincare yang sesuai dengan kebutuhan kulitmu.</p>
+              <button onClick={onClose}>Mulai Belanja</button>
             </div>
           ) : (
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                <img
-                  src={item.image}
-                  alt={item.name}
-                />
+                <img src={item.image} alt={item.name} />
 
                 <div className="cart-item-info">
                   <h3>{item.name}</h3>
@@ -107,10 +93,7 @@ function CartDrawer({ isOpen, onClose, onCheckout }) {
               <strong>{formatPrice(totalPrice)}</strong>
             </div>
 
-            <button
-              className="cart-checkout"
-              onClick={onCheckout}
-            >
+            <button className="cart-checkout" onClick={onCheckout}>
               Lanjut Checkout
             </button>
 

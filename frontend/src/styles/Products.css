@@ -1,11 +1,10 @@
-
 /* RIJEMA DIRA - PRODUCTS */
 
 .products-page {
   min-height: 100vh;
   background: #fdfaf7;
   color: #493b39;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 .products-navbar {
@@ -111,7 +110,7 @@
 }
 
 .products-heading h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(30px, 4vw, 43px);
   margin: 14px 0;
 }
@@ -260,7 +259,7 @@
 
 .product-card-info h3 {
   margin: 12px 0 6px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 17px;
 }
 
@@ -306,7 +305,7 @@
 
 .empty-products h3 {
   margin: 13px 0 7px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .empty-products p {
@@ -330,7 +329,7 @@
 
 .products-consultation h2 {
   margin: 12px 0;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 25px;
 }
 
@@ -435,7 +434,7 @@
 .modal-details h2 {
   margin: 13px 0;
   padding-right: 25px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 25px;
   line-height: 1.4;
 }
