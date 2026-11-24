@@ -16,11 +16,31 @@ class ApiTests(unittest.TestCase):
 
     @unittest.skipUnless(FLASK_AVAILABLE, "Flask is not installed in this environment")
     @patch("routes.chat_routes.process", return_value="Balasan chatbot")
-    def test_chat_contract_is_compatible(self, process):
+    def test_chat_contract_is_compatible_and_stateless(self, process):
         response = self.client.post("/api/chat", json={"message": "kulit saya merah"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json(), {"ok": True, "reply": "Balasan chatbot"})
-        process.assert_called_once_with("kulit saya merah")
+        self.assertEqual(process.call_args.args, ("kulit saya merah",))
+        self.assertTrue(process.call_args.kwargs["request_id"])
+
+    @unittest.skipUnless(FLASK_AVAILABLE, "Flask is not installed in this environment")
+    def test_conversation_history_is_not_accepted_or_stored(self):
+        response = self.client.post("/api/chat", json={
+            "message": "apa penyebab jerawat?", "history": [{"role": "assistant", "content": "made up"}],
+        })
+        self.assertEqual(response.status_code, 400)
+
+    @unittest.skipUnless(FLASK_AVAILABLE, "Flask is not installed in this environment")
+    @patch("routes.chat_routes.process", return_value="Balasan")
+    def test_separate_requests_receive_isolated_request_ids(self, process):
+        for message in ("apa itu jerawat?", "bagaimana merawat kulit?"):
+            response = self.client.post("/api/chat", json={"message": message})
+            self.assertEqual(response.status_code, 200)
+        ids = [call.kwargs["request_id"] for call in process.call_args_list]
+        self.assertEqual(len(set(ids)), 2)
+        self.assertEqual([call.args[0] for call in process.call_args_list], [
+            "apa itu jerawat?", "bagaimana merawat kulit?",
+        ])
 
     @unittest.skipUnless(FLASK_AVAILABLE, "Flask is not installed in this environment")
     def test_chat_rejects_empty_message(self):

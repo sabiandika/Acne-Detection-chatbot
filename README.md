@@ -45,7 +45,7 @@ ollama serve
 **Terminal 2 — Backend:**
 ```
 cd backend
-pip install flask flask-cors requests scikit-fuzzy numpy
+pip install -r requirements.txt
 python app.py
 ```
 
@@ -67,19 +67,24 @@ npx vite
 
 ```mermaid
 flowchart TD
-    A["User mengetik pesan"] --> B["Normalisasi bahasa santai\n(slang → baku)"]
-    B --> C{"Fuzzy Scope Filter\n(relevansi skincare)"}
-    C -->|"Luar"| D["❌ Tolak:\nMaaf, saya cuma bisa\nbantu soal skincare"]
-    C -->|"Ragu"| E["⚠️ Minta klarifikasi"]
-    C -->|"Dalam"| F["Ekstraksi Gejala"]
-    F --> G["Gemma LLM\n(analisis konteks)"]
-    F --> H["Leksikon Santai\n(jaring pengaman)"]
-    G --> I["Gabung nilai tertinggi"]
-    H --> I
-    I --> J["Fuzzy Mamdani\n4 input → tingkat masalah"]
-    J --> K["Skor + Label\n(ringan/sedang/berat)"]
-    K --> L["Gemma merangkai\njawaban empatik"]
-    L --> M["✅ Jawaban ditampilkan\ndi UI chatbot"]
+    A["User message"] --> B["Pydantic request validation"]
+    B --> C{"Deterministic scope and safety routing"}
+    C -->|"Out of scope / unsafe"| D["Safe redirect; no LLM call"]
+    C -->|"Symptom analysis"| E["Normalized deterministic symptom lexicon"]
+    E --> F{"All fuzzy inputs explicit?"}
+    F -->|"No"| G["Ask for missing details"]
+    F -->|"Yes"| H["Fuzzy Mamdani"]
+    H --> I["Deterministic response; fuzzy value preserved"]
+    C -->|"General education"| J["BM25 + optional local embeddings"]
+    J --> K["Gemma JSON answer with retrieved evidence"]
+    K --> L["Schema, relevance, evidence, and safety validation"]
+    L -->|"Invalid once"| M["One corrective retry"]
+    L -->|"Valid"| N["Append source IDs from backend"]
+    M --> L
+    G --> O["Existing API response"]
+    I --> O
+    D --> O
+    N --> O
 ```
 
 > [!NOTE]
@@ -87,5 +92,17 @@ flowchart TD
 > Jika belum punya, jalankan: `ollama pull gemma3:4b`
 
 > [!WARNING]
-> Proses analisis membutuhkan waktu **5-15 detik** per pesan (karena memanggil Ollama 3x per pesan).
-> Ini normal dan tergantung performa komputer kamu.
+> Pesan yang memerlukan jawaban AI dapat membutuhkan waktu beberapa detik, tergantung performa komputer dan Ollama. Pertanyaan yang perlu klarifikasi gejala dijawab tanpa memanggil model generasi.
+
+## Catatan backend reliability
+
+- Audit dan urutan migrasi tersedia di `backend/AUDIT_AND_MIGRATION.md`.
+- Symptom score sekarang diambil dari lexicon deterministik. Gejala yang tidak disebut tetap unknown; fuzzy analysis meminta klarifikasi daripada mengisinya dengan angka default.
+- Pertanyaan edukasi umum memakai dokumen ringkas dengan metadata sumber di `backend/knowledge_base/curated_knowledge.json`. Retrieval memakai BM25 lokal dan semantic reranking opsional dari Ollama dengan Reciprocal Rank Fusion; jika model embedding tidak tersedia, retrieval tetap memakai BM25. Reranking semantic dibatasi pada kandidat yang cocok secara kata kunci.
+- Ollama hanya merangkai jawaban edukasi dari dokumen yang ditemukan. Jawaban gejala dan hasil fuzzy dibuat deterministik di backend; model tidak pernah menerima atau mengubah skor fuzzy.
+- Scope dan permintaan medis berisiko dirutekan tanpa LLM.
+- Request API bersifat stateless dan tidak menerima riwayat; ini mencegah kebocoran antarpercakapan, tetapi follow-up tidak membawa konteks sebelumnya.
+- Trace prompt, retry, validasi, konfigurasi Ollama, dan batasan ada di `backend/CHATBOT_DEBUGGING.md`.
+- Dokumen awal bersumber dari NHS dan American Academy of Dermatology. Ini bukan korpus lengkap dan masih perlu tinjauan dermatolog sebelum digunakan sebagai panduan klinis.
+- Install dependency backend dengan `pip install -r backend/requirements.txt`. Tes offline: `cd backend` lalu `python -m unittest discover -s tests`.
+- Untuk semantic reranking, jalankan `ollama pull nomic-embed-text`; tanpa itu, sistem tetap berfungsi memakai BM25 saja.

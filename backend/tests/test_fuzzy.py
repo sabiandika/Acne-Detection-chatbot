@@ -1,4 +1,5 @@
 import unittest
+from pydantic import ValidationError
 
 from fuzzy.inference import analyze, recommend
 from fuzzy.membership_functions import iritasi
@@ -20,6 +21,10 @@ class FuzzyTests(unittest.TestCase):
         dominant, recommendation = recommend(2, 8, 1, 1)
         self.assertEqual(dominant, "jerawat")
         self.assertTrue(recommendation)
+
+    def test_invalid_input_is_rejected_instead_of_clipped(self):
+        with self.assertRaises(ValidationError):
+            analyze(11, 1, 1, 1)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,9 @@ Pemahaman bahasa santai/gaul tanpa LLM:
 import re
 
 SLANG = {
+    "jerawatt": "jerawat", "jerawattt": "jerawat", "jerawt": "jerawat", "jerawatnya": "jerawat",
+    "jerawatku": "jerawat", "jerawatmu": "jerawat", "kulitku": "kulit", "kulitmu": "kulit",
+    "kulitnya": "kulit", "wajahku": "wajah", "wajahmu": "wajah", "wajahnya": "wajah",
     "gatel": "gatal", "gatelnya": "gatal", "gatelan": "gatal", "ga": "tidak", "gak": "tidak", "nggak": "tidak",
     "ngga": "tidak", "engga": "tidak", "enggak": "tidak", "tdk": "tidak", "gw": "saya", "gue": "saya", "gua": "saya",
     "bgt": "banget", "bngt": "banget", "udh": "sudah", "udah": "sudah", "sampe": "sampai", "sampek": "sampai",
@@ -43,15 +46,28 @@ PERASAAN = {
 def _ada(t, frasa):
     return re.search(rf"\b{re.escape(frasa)}\b", t) is not None
 
+def _matches_not_negated(t, frasa):
+    """Find a symptom mention unless a nearby negation explicitly denies it."""
+    for match in re.finditer(rf"\b{re.escape(frasa)}\b", t):
+        prefix = t[max(0, match.start() - 28):match.start()]
+        if re.search(r"(?:\b(?:tidak|bukan|belum|tanpa)\s+(?:(?:ada|terasa|mengalami|memiliki)\s+)?)$", prefix):
+            continue
+        return True
+    return False
+
 def skor_leksikon(teks):
     """Return dict gejala -> skor 0-10 atau None bila tidak disebut."""
     t = normalisasi(teks)
     penyesuaian = sum(v for k, v in PENGUAT.items() if _ada(t, k)) + sum(v for k, v in PELEMAH.items() if _ada(t, k))
     hasil = {}
     for gejala, daftar in GEJALA.items():
-        ketemu = [skor for frasa, skor in daftar if _ada(t, frasa)]
+        ketemu = [skor for frasa, skor in daftar if _matches_not_negated(t, frasa)]
         if not ketemu:
-            hasil[gejala] = None
+            denied = any(
+                re.search(rf"(?:\b(?:tidak|bukan|belum|tanpa)\s+(?:(?:ada|terasa|mengalami|memiliki)\s+)?)\b{re.escape(frasa)}\b", t)
+                for frasa, _ in daftar
+            )
+            hasil[gejala] = 0.0 if denied else None
             continue
         skor = max(ketemu) + 0.75 * (len(ketemu) - 1) + penyesuaian
         hasil[gejala] = round(min(max(skor, 0), 10), 1)

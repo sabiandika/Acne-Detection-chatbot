@@ -1,0 +1,68 @@
+[
+  {
+    "document_id": "aad-acne-overview",
+    "title": "Pengertian dan jenis jerawat",
+    "content": "Jerawat adalah kondisi kulit yang dapat menimbulkan komedo hitam, komedo putih, jerawat, serta kista atau nodul yang dalam dan nyeri. Jerawat tidak menular. Jika sulit membedakan jenis lesi atau jerawat terasa dalam dan nyeri, dokter kulit dapat membantu menilai.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/diseases/acne/really-acne/overview",
+    "category": "acne_types",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "aad-acne-causes",
+    "title": "Penyebab dan faktor yang dapat memperburuk jerawat",
+    "content": "Penyebab jerawat berkaitan dengan pori-pori yang tersumbat. Hormon dapat berperan; saat pubertas, androgen dapat meningkatkan aktivitas kelenjar minyak dan minyak dapat menyumbat pori. Stres tidak menyebabkan jerawat, tetapi dapat memperburuk jerawat yang sudah ada. Kurang tidur, beberapa makanan, serta produk makeup atau perawatan rambut yang berminyak dapat memperburuk jerawat.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/diseases/acne/causes/acne-causes",
+    "category": "acne_causes",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "aad-acne-care",
+    "title": "Perawatan umum untuk jerawat",
+    "content": "Untuk membantu merawat jerawat, cuci wajah dengan lembut hingga dua kali sehari dan setelah berkeringat, gunakan pembersih lembut non-abrasif, jangan menggosok atau memencet jerawat, dan pilih produk berlabel non-comedogenic atau tidak menyumbat pori. Perawatan dapat memerlukan beberapa minggu hingga beberapa bulan. Jika jerawat tetap muncul, konsultasikan dengan dokter kulit.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/diseases/acne/skin-care/tips",
+    "category": "general_acne_education",
+    "publication_date": "2022-11-16",
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "nhs-acne-self-care",
+    "title": "Perawatan mandiri jerawat",
+    "content": "Untuk jerawat, cuci kulit dua kali sehari dengan pembersih lembut, gunakan produk skincare dan makeup berlabel non-comedogenic, hindari memencet jerawat dan menggosok kulit. Apoteker dapat membantu membahas pilihan perawatan topikal seperti asam salisilat atau benzoyl peroxide.",
+    "source": "NHS",
+    "source_url": "https://www.nhs.uk/conditions/acne/",
+    "category": "general_acne_education",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "nhs-acne-when-to-seek-care",
+    "title": "Kapan mencari bantuan untuk jerawat",
+    "content": "Temui tenaga kesehatan bila jerawat tidak membaik setelah perawatan mandiri, terdapat banyak lesi atau lesi dalam dan nyeri, timbul jaringan parut, ada tanda infeksi, atau jerawat berdampak pada kesehatan mental. Dokter dapat memberi saran, menawarkan perawatan resep, atau merujuk ke dokter kulit.",
+    "source": "NHS",
+    "source_url": "https://www.nhs.uk/conditions/acne/",
+    "category": "medical_red_flags",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "aad-acne-skin-care",
+    "title": "Kebiasaan perawatan kulit untuk kulit berjerawat",
+    "content": "American Academy of Dermatology menyarankan perawatan yang lembut untuk kulit berjerawat. Menggosok kulit dan tanning dapat memperburuk kondisi. Pilihan perawatan berbeda untuk tiap orang; informasi umum tidak menentukan diagnosis atau terapi personal.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/diseases/acne/skin-care/tips",
+    "category": "skincare_safety",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-24",
+    "verification_status": "verified"
+  }
+]

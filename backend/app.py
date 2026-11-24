@@ -1,5 +1,7 @@
 """Flask application entry point."""
 
+import logging
+
 from flask import Flask
 from flask_cors import CORS
 
@@ -10,7 +12,7 @@ except ImportError:  # Keep app importable before optional local environment set
 
 load_dotenv()
 
-from config import FLASK_DEBUG, FLASK_HOST, FLASK_PORT  # noqa: E402
+from config import FLASK_DEBUG, FLASK_HOST, FLASK_PORT, OLLAMA_DEBUG_LOGS  # noqa: E402
 from routes.chat_routes import chat_blueprint  # noqa: E402
 from routes.health_routes import health_blueprint  # noqa: E402
 from utils.logger import configure_logging  # noqa: E402
@@ -22,7 +24,9 @@ def create_app():
     CORS(app)
     app.register_blueprint(chat_blueprint)
     app.register_blueprint(health_blueprint)
-    configure_logging()
+    configure_logging(
+        logging.DEBUG if FLASK_DEBUG and OLLAMA_DEBUG_LOGS else logging.INFO
+    )
     return app
 
 
