@@ -11,6 +11,39 @@
     "verification_status": "verified"
   },
   {
+    "document_id": "aad-acne-lesions-comparison",
+    "title": "Perbedaan komedo, papula, dan lesi jerawat meradang",
+    "content": "Komedo terbentuk ketika pori-pori tersumbat oleh minyak dan sel kulit mati tanpa peradangan berat, berupa komedo putih (tertutup) dan komedo hitam (terbuka). Papula adalah benjolan kecil berwarna merah dan terasa lunak akibat dinding pori mengalami peradangan dan kemerahan. Pustula mirip papula tetapi berisi nanah di bagian ujungnya, sedangkan nodul dan kista berada lebih dalam di bawah kulit.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/diseases/acne/really-acne/symptoms",
+    "category": "acne_types",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-25",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "nhs-acne-inflammation-redness",
+    "title": "Penyebab kemerahan dan peradangan pada wajah berjerawat",
+    "content": "Wajah dapat mengalami kemerahan ketika kelenjar sebasea menghasilkan sebum berlebih yang bercampur dengan sel kulit mati dan menyumbat folikel rambut. Sumbatan ini memicu respons peradangan kulit sehingga muncul benjolan merah, nyeri, atau iritasi. Penggunaan produk yang terlalu keras atau menggosok wajah berlebihan juga dapat memperparah kemerahan pada kulit.",
+    "source": "NHS",
+    "source_url": "https://www.nhs.uk/conditions/acne/",
+    "category": "acne_inflammation",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-25",
+    "verification_status": "verified"
+  },
+  {
+    "document_id": "aad-dull-dry-skin-care",
+    "title": "Penyebab wajah kusam dan perawatan kulit dasar",
+    "content": "Wajah kusam umumnya berkaitan dengan penumpukan sel kulit mati di permukaan kulit, kulit kering atau kurang terhidrasi, paparan sinar matahari tanpa perlindungan tabir surya, serta kebiasaan merawat kulit yang kurang tepat. Perawatan dasar meliputi membersihkan wajah dengan pembersih lembut, menjaga kelembapan kulit dengan pelembap sesuai jenis kulit, dan menggunakan tabir surya setiap hari.",
+    "source": "American Academy of Dermatology",
+    "source_url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/dermatologists-tips-relieve-dry-skin",
+    "category": "dull_and_dry_skin",
+    "publication_date": null,
+    "last_reviewed_date": "2026-11-25",
+    "verification_status": "verified"
+  },
+  {
     "document_id": "aad-acne-causes",
     "title": "Penyebab dan faktor yang dapat memperburuk jerawat",
     "content": "Penyebab jerawat berkaitan dengan pori-pori yang tersumbat. Hormon dapat berperan; saat pubertas, androgen dapat meningkatkan aktivitas kelenjar minyak dan minyak dapat menyumbat pori. Stres tidak menyebabkan jerawat, tetapi dapat memperburuk jerawat yang sudah ada. Kurang tidur, beberapa makanan, serta produk makeup atau perawatan rambut yang berminyak dapat memperburuk jerawat.",

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../components/CartDrawer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Search,
   ShoppingCart,
@@ -15,93 +15,34 @@ import {
 } from "lucide-react";
 
 import "../styles/products.css";
+import products from "../../../shared/products.json";
 
-const products = [
-  {
-    id: 1,
-    name: "Gentle Facial Cleanser",
-    category: "Cleanser",
-    price: 65000,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=700",
-    description:
-      "Pembersih wajah lembut untuk membersihkan kotoran dan minyak tanpa membuat kulit terasa tertarik.",
-    ingredients: ["Centella Asiatica", "Glycerin", "Panthenol"],
-    skin: "Semua jenis kulit",
-  },
-  {
-    id: 2,
-    name: "Hydrating Moisturizer",
-    category: "Moisturizer",
-    price: 89000,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700",
-    description:
-      "Pelembap dengan tekstur ringan untuk membantu menjaga hidrasi dan kelembapan kulit.",
-    ingredients: ["Hyaluronic Acid", "Niacinamide", "Ceramide"],
-    skin: "Normal dan kombinasi",
-  },
-  {
-    id: 3,
-    name: "Daily UV Sunscreen",
-    category: "Sunscreen",
-    price: 95000,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=700",
-    description:
-      "Perlindungan kulit dari paparan sinar UV untuk melengkapi rutinitas skincare harian.",
-    ingredients: ["UV Filters", "Vitamin E", "Glycerin"],
-    skin: "Semua jenis kulit",
-  },
-  {
-    id: 4,
-    name: "Niacinamide Bright Serum",
-    category: "Serum",
-    price: 110000,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=700",
-    description:
-      "Serum untuk membantu merawat tampilan warna kulit tidak merata dan menjaga kondisi skin barrier.",
-    ingredients: ["Niacinamide", "Zinc PCA", "Hyaluronic Acid"],
-    skin: "Berminyak dan kombinasi",
-  },
-  {
-    id: 5,
-    name: "Soothing Gel Moisturizer",
-    category: "Moisturizer",
-    price: 78000,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=700",
-    description:
-      "Pelembap gel dengan sensasi ringan untuk membantu memberikan kelembapan pada kulit.",
-    ingredients: ["Aloe Vera", "Centella Asiatica", "Panthenol"],
-    skin: "Berminyak dan sensitif",
-  },
-  {
-    id: 6,
-    name: "Exfoliating BHA Serum",
-    category: "Serum",
-    price: 105000,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=700",
-    description:
-      "Serum eksfoliasi untuk membantu membersihkan pori-pori dan merawat kulit yang rentan berkomedo.",
-    ingredients: ["Salicylic Acid", "Green Tea", "Glycerin"],
-    skin: "Berminyak dan rentan berjerawat",
-  },
-];
+
 
 const formatPrice = (price) => "Rp" + price.toLocaleString("id-ID");
 
 function Products() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const productParam = searchParams.get("product");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { totalItems, addToCart: addProductToCart } = useCart();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Semua");
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProductState, setSelectedProductState] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [notification, setNotification] = useState("");
+  const productFromUrl = products.find((product) => product.id === Number(productParam));
+  const selectedProduct = productFromUrl || selectedProductState;
+
+  const closeProductDetails = () => {
+    setSelectedProductState(null);
+    if (productParam) {
+      const params = new URLSearchParams(searchParams);
+      params.delete("product");
+      setSearchParams(params, { replace: true });
+    }
+  };
 
   const categories = ["Semua", "Cleanser", "Moisturizer", "Serum", "Sunscreen"];
 
@@ -121,14 +62,14 @@ function Products() {
       `${selectedProduct.name} berhasil dimasukkan ke keranjang!`,
     );
 
-    setSelectedProduct(null);
+    closeProductDetails();
     setQuantity(1);
 
     setTimeout(() => setNotification(""), 3000);
   };
 
   const openDetail = (product) => {
-    setSelectedProduct(product);
+    setSelectedProductState(product);
     setQuantity(1);
   };
 
@@ -261,12 +202,12 @@ function Products() {
       {selectedProduct && (
         <div
           className="product-modal-overlay"
-          onClick={() => setSelectedProduct(null)}
+          onClick={closeProductDetails}
         >
           <div className="product-modal" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close"
-              onClick={() => setSelectedProduct(null)}
+              onClick={closeProductDetails}
               aria-label="Tutup detail"
             >
               <X size={20} />

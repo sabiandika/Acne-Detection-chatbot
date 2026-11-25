@@ -1,4 +1,4 @@
-"""Conservative checks for generated educational answers."""
+"""Conservative checks for generated educational answers with Indonesian morphological grounding."""
 
 import re
 
@@ -20,13 +20,35 @@ _STOP_WORDS = {
     "para", "per", "perlu", "saat", "saja", "sebagai", "secara", "sehingga",
     "seperti", "serta", "sudah", "tanpa", "tidak", "untuk", "yang", "apa",
     "bagaimana", "apakah", "mengapa", "kenapa", "boleh", "dalam", "tentang",
-    "tersebut", "beberapa", "banyak", "informasi", "cukup", "belas", "bisa", "nya",
+    "tersebut", "beberapa", "banyak", "informasi", "cukup", "nya", "hal",
+    "tampak", "terlihat", "terjadi", "disebabkan", "membuat", "umumnya",
+    "sering", "terutama", "bagian", "faktor", "kondisi", "berikut", "terkait",
+    "memiliki", "mengalami", "biasanya", "penting", "menjaga", "mengurangi",
+    "utama", "antara", "lain", "jenis", "cara", "salah", "satu", "maupun",
+    "hingga", "sampai", "setiap", "ketika", "bila", "apabila", "namun", "tetapi",
+    "sedangkan", "sementara", "yaitu", "yakni", "contohnya", "misalnya",
+    "berbeda", "perbedaan", "beda", "muncul", "timbul", "akibat", "berkaitan",
 }
+
+
+def _stem_id(token: str) -> str:
+    if len(token) <= 4:
+        return token
+    for suffix in ("nya", "kan", "an", "i"):
+        if token.endswith(suffix) and len(token) - len(suffix) >= 4:
+            token = token[:-len(suffix)]
+            break
+    for prefix in ("meng", "meny", "mem", "men", "me", "peng", "peny", "pem", "pen", "per", "ber", "ter", "di", "ke"):
+        if token.startswith(prefix) and len(token) - len(prefix) >= 4:
+            token = token[len(prefix):]
+            break
+    return token
 
 
 def _content_terms(text):
     return {
-        token for token in re.findall(r"[a-z0-9]+", normalisasi(text).lower())
+        _stem_id(token)
+        for token in re.findall(r"[a-z0-9]+", normalisasi(text).lower())
         if len(token) > 2 and token not in _STOP_WORDS
     }
 

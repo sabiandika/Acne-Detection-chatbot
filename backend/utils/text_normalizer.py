@@ -14,7 +14,7 @@ SLANG = {
     "ngga": "tidak", "engga": "tidak", "enggak": "tidak", "tdk": "tidak", "gw": "saya", "gue": "saya", "gua": "saya",
     "bgt": "banget", "bngt": "banget", "udh": "sudah", "udah": "sudah", "sampe": "sampai", "sampek": "sampai",
     "kek": "seperti", "kayak": "seperti", "dikit": "sedikit", "dkt": "dekat", "ngelupas": "mengelupas",
-    "jerawatan": "jerawat", "bruntus": "bruntusan", "ketarik": "tertarik", "nyut-nyutan": "nyeri",
+    "jerawatan": "jerawat", "berjerawat": "jerawat", "bruntus": "bruntusan", "ketarik": "tertarik", "nyut-nyutan": "nyeri",
     "pedes": "perih", "kesel": "kesal", "keselnya": "kesal", "pedih": "perih", "cenut": "nyeri", "minyakan": "berminyak", "mengkilap": "berminyak",
     "kinclong": "berminyak", "muka": "wajah", "mukaku": "wajah", "mukanya": "wajah",
 }

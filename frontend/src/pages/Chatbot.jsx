@@ -1,16 +1,11 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import {
   Send,
-  Sparkles,
-  Droplet,
-  FlaskConical,
-  Sun,
-  MessageCircle,
   RefreshCw,
   ArrowLeft,
-  CheckCircle2,
   AlertCircle,
   Loader2,
   Wifi,
@@ -44,11 +39,11 @@ const initialMessage = {
 };
 
 // Kirim pesan ke backend Flask -> chatbot fuzzy Mamdani + Ollama
-async function sendToBackend(message) {
+async function sendToBackend(message, history, conversationId) {
   const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, history, conversation_id: conversationId }),
   });
 
   const data = await res.json();
@@ -57,8 +52,17 @@ async function sendToBackend(message) {
     throw new Error(data.reply || 'Terjadi kesalahan pada server.');
   }
 
-  return data.reply;
+  return {
+    reply: data.reply,
+    products: Array.isArray(data.products) ? data.products : [],
+    isFallback: Boolean(data.is_fallback),
+  };
 }
+
+const newConversationId = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
+const formatPrice = (price) => new Intl.NumberFormat('id-ID', {
+  style: 'currency', currency: 'IDR', maximumFractionDigits: 0,
+}).format(Number(price));
 
 // Cek status backend & Ollama
 async function checkHealth() {
@@ -72,6 +76,8 @@ async function checkHealth() {
 }
 
 function Chatbot() {
+  const { addToCart } = useCart();
+  const [conversationId, setConversationId] = useState(newConversationId);
   const [messages, setMessages] = useState([
     { ...initialMessage, time: 'Hari ini' }
   ]);
@@ -80,6 +86,7 @@ function Chatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const [backendStatus, setBackendStatus] = useState({ backend: null, ollama: null });
   const bottomRef = useRef(null);
+  const conversationRef = useRef(conversationId);
 
   // Cek koneksi backend saat komponen pertama kali dimuat
   useEffect(() => {
@@ -118,17 +125,32 @@ function Chatbot() {
 
     setInput('');
     setIsTyping(true);
+    const sentConversationId = conversationId;
+
+    const history = messages
+      .filter(item => !item.isError && !item.isFallback && ['user', 'bot'].includes(item.sender) && typeof item.text === 'string')
+      .slice(-6)
+      .map(item => ({
+        role: item.sender === 'user' ? 'user' : 'assistant',
+        content: item.text.slice(0, 1000),
+        ...(item.sender === 'bot' && item.products?.length
+          ? { product_ids: item.products.map(product => Number(product.id)).filter(Number.isInteger) }
+          : {}),
+      }));
 
     try {
       // Kirim ke backend (chatbot fuzzy + Ollama)
-      const reply = await sendToBackend(message);
+      const result = await sendToBackend(message, history, sentConversationId);
+      if (conversationRef.current !== sentConversationId) return;
 
       setMessages(prev => [
         ...prev,
         {
           id: Date.now() + 1,
           sender: 'bot',
-          text: reply,
+          text: result.reply,
+          products: result.products,
+          isFallback: result.isFallback,
           time: new Date().toLocaleTimeString('id-ID', {
             hour: '2-digit',
             minute: '2-digit'
@@ -136,6 +158,7 @@ function Chatbot() {
         }
       ]);
     } catch (error) {
+      if (conversationRef.current !== sentConversationId) return;
       // Tampilkan pesan error sebagai pesan bot
       setMessages(prev => [
         ...prev,
@@ -151,11 +174,14 @@ function Chatbot() {
         }
       ]);
     } finally {
-      setIsTyping(false);
+      if (conversationRef.current === sentConversationId) setIsTyping(false);
     }
   };
 
   const newConversation = () => {
+    const nextConversationId = newConversationId();
+    conversationRef.current = nextConversationId;
+    setConversationId(nextConversationId);
     setMessages([{ ...initialMessage, id: Date.now(), time: 'Hari ini' }]);
     setInput('');
     setIsTyping(false);
@@ -289,6 +315,28 @@ function Chatbot() {
                     )}
 
                     <div style={{ whiteSpace: 'pre-wrap' }}>{message.text}</div>
+                    {message.products?.length > 0 && (
+                      <div className="chat-product-cards">
+                        {message.products.map(product => (
+                          <article className="chat-product-card" key={product.id}>
+                            <img src={product.image} alt={product.name} loading="lazy" />
+                            <div className="chat-product-card-body">
+                              <span>{product.category}</span>
+                              <h4>{product.name}</h4>
+                              <strong>{formatPrice(product.price)}</strong>
+                              <p>{product.description}</p>
+                              {product.skin && <small>Metadata kulit toko: {product.skin}</small>}
+                              <div className="chat-product-card-actions">
+                                <Link to={`/produk?product=${encodeURIComponent(product.id)}`}>Lihat detail</Link>
+                                <button type="button" onClick={() => addToCart(product)}>
+                                  Tambah ke keranjang
+                                </button>
+                              </div>
+                            </div>
+                          </article>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <span className="message-time">

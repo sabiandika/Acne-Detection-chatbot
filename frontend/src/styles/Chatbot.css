@@ -374,6 +374,91 @@
   margin-top: 8px;
 }
 
+.chat-product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  white-space: normal;
+}
+
+.chat-product-card {
+  overflow: hidden;
+  border: 1px solid #ead8d0;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.chat-product-card > img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.chat-product-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 11px;
+}
+
+.chat-product-card-body > span,
+.chat-product-card-body small {
+  color: #88736d;
+  font-size: 10px;
+}
+
+.chat-product-card-body h4 {
+  color: #493b39;
+  font-size: 12px;
+}
+
+.chat-product-card-body > strong {
+  color: #a45e58;
+  font-size: 12px;
+}
+
+.chat-product-card-body > p {
+  color: #75645e;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.chat-product-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 5px;
+}
+
+.chat-product-card-actions a,
+.chat-product-card-actions button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 9px;
+  border: 1px solid #e8c8bf;
+  border-radius: 8px;
+  background: #fff8f4;
+  color: #965c55;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chat-product-card-actions button {
+  background: #d98e89;
+  border-color: #d98e89;
+  color: #fff;
+}
+
+.chat-product-card-actions a:hover,
+.chat-product-card-actions button:hover {
+  filter: brightness(0.96);
+}
+
 .message-bubble p {
   display: inline;
 }

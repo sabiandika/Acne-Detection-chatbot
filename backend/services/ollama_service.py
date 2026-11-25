@@ -8,7 +8,7 @@ import requests
 from config import (
     FLASK_DEBUG, HEALTH_TIMEOUT, OLLAMA_BASE_URL, OLLAMA_DEBUG_LOGS, OLLAMA_MODEL,
     OLLAMA_NUM_PREDICT, OLLAMA_REPEAT_PENALTY, OLLAMA_TIMEOUT, OLLAMA_TEMPERATURE,
-    OLLAMA_TOP_K, OLLAMA_TOP_P,
+    OLLAMA_TOP_K, OLLAMA_TOP_P, OLLAMA_NUM_CTX,
 )
 
 logger = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ def chat(messages, json_mode=False):
             "top_k": OLLAMA_TOP_K,
             "repeat_penalty": OLLAMA_REPEAT_PENALTY,
             "num_predict": OLLAMA_NUM_PREDICT,
+            "num_ctx": OLLAMA_NUM_CTX,
         },
     }
     if json_mode:

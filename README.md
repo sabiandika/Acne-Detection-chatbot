@@ -101,7 +101,8 @@ flowchart TD
 - Pertanyaan edukasi umum memakai dokumen ringkas dengan metadata sumber di `backend/knowledge_base/curated_knowledge.json`. Retrieval memakai BM25 lokal dan semantic reranking opsional dari Ollama dengan Reciprocal Rank Fusion; jika model embedding tidak tersedia, retrieval tetap memakai BM25. Reranking semantic dibatasi pada kandidat yang cocok secara kata kunci.
 - Ollama hanya merangkai jawaban edukasi dari dokumen yang ditemukan. Jawaban gejala dan hasil fuzzy dibuat deterministik di backend; model tidak pernah menerima atau mengubah skor fuzzy.
 - Scope dan permintaan medis berisiko dirutekan tanpa LLM.
-- Request API bersifat stateless dan tidak menerima riwayat; ini mencegah kebocoran antarpercakapan, tetapi follow-up tidak membawa konteks sebelumnya.
+- Frontend mengirim maksimal enam pesan terbaru bersama conversation ID. Backend tidak menyimpan session; product IDs dari assistant history diverifikasi ulang terhadap katalog bersama sebelum dipakai untuk follow-up.
+- Katalog toko tunggal ada di `shared/products.json`, dipakai oleh halaman produk frontend dan `ProductCatalogService` backend. Schema ini mengikuti field produk yang memang ada; stok tidak tercatat.
 - Trace prompt, retry, validasi, konfigurasi Ollama, dan batasan ada di `backend/CHATBOT_DEBUGGING.md`.
 - Dokumen awal bersumber dari NHS dan American Academy of Dermatology. Ini bukan korpus lengkap dan masih perlu tinjauan dermatolog sebelum digunakan sebagai panduan klinis.
 - Install dependency backend dengan `pip install -r backend/requirements.txt`. Tes offline: `cd backend` lalu `python -m unittest discover -s tests`.

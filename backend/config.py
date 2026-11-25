@@ -14,6 +14,7 @@ OLLAMA_TOP_P = float(os.getenv("OLLAMA_TOP_P", "0.8"))
 OLLAMA_TOP_K = int(os.getenv("OLLAMA_TOP_K", "20"))
 OLLAMA_REPEAT_PENALTY = float(os.getenv("OLLAMA_REPEAT_PENALTY", "1.1"))
 OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "300"))
+OLLAMA_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "2048"))
 OLLAMA_DEBUG_LOGS = os.getenv("OLLAMA_DEBUG_LOGS", "false").lower() in {"1", "true", "yes"}
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 OLLAMA_EMBED_TIMEOUT = float(os.getenv("OLLAMA_EMBED_TIMEOUT", "10"))
